@@ -1,0 +1,45 @@
+@import variables
+
+html
+	height: 100%
+
+body
+	min-height: 100%
+	background-color: $black
+	position: relative
+	color: $white
+
+*
+	box-sizing: border-box
+
+// See https://purecss.io/grids/#using-grids-with-custom-fonts before editing
+html, button, input, select, textarea, .pure-g [class *= "pure-u"]
+	font-family: 'Titillium Web', sans-serif
+
+img
+	max-width: 100%
+
+
+// a
+// 	color: inherit
+// 	&:hover
+// 		color: $light-gray
+
+// Fix purecss
+.pure-form input[type=password], .pure-form input[type=email], .pure-form input[type=url], .pure-form input[type=date],
+.pure-form input[type=month], .pure-form input[type=time], .pure-form input[type=datetime], .pure-form input[type=datetime-local],
+.pure-form input[type=week], .pure-form input[type=tel], .pure-form input[type=color], .pure-form input[type=number],
+.pure-form input[type=search], .pure-form input[type=text], .pure-form select, .pure-form textarea
+	color: $black
+
+// pure-u-sm size
+@media screen and (max-width: 35.5em)
+
+// pure-u-md size
+@media screen and (max-width: 48em)
+
+// pure-u-lg size
+@media screen and (max-width: 64em)
+
+// pure-u-xl size
+@media screen and (max-width: 80em)

@@ -3,4 +3,8 @@ node_modules/
 dist/
 *.log
 
+*.sass-cache
+
 config.jsfirebase-debug.log
+app/style/css/compiled.css
+app/style/css/compiled.css.map
