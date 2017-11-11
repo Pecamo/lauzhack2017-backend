@@ -1,0 +1,26 @@
+{
+  "name": "lauzhack2017-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pecamo/lauzhack2017-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Pecamo/lauzhack2017-backend/issues"
+  },
+  "homepage": "https://github.com/Pecamo/lauzhack2017-backend#readme",
+  "dependencies": {
+    "firebase": "4.6.2"
+  }
+}
