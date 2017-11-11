@@ -30,7 +30,7 @@ function signOut() {
 }
 
 function onAuthDone(user) {
-	document.querySelector('#user-identity').innerHTML = 'Hi ' + user.displayName + '! <img class="profile-pic" src="' + user.photoURL + '">';
+	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '!</span> <img class="profile-pic" src="' + user.photoURL + '">';
 }
 
 
