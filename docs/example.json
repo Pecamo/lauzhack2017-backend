@@ -64,10 +64,12 @@
 
     "managers": {
         "23456": {
-            "holycow": 0
+            "business_id": "holycow",
+            "privilege": 0
         },
         "34567": {
-            "holycow": 1
+            "business_id": "holycow",
+            "privilege": 1
         }
     }
 }
