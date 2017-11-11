@@ -59,6 +59,9 @@
         },
         "34567": {
             "FCs": []
+        },
+        "EgNIt0Dd2uPwraBYa2SjBWWBqiJ3": {
+            "FCs": []
         }
     },
 
@@ -70,6 +73,10 @@
         "34567": {
             "business_id": "holycow",
             "privilege": 1
+        },
+        "EgNIt0Dd2uPwraBYa2SjBWWBqiJ3": {
+            "business_id": "holycow",
+            "privilege": 0
         }
     }
 }

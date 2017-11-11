@@ -30,7 +30,9 @@ function signOut() {
 }
 
 function onAuthDone(user) {
+	setupVue(user.uid);
 	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '!</span> <img class="profile-pic" src="' + user.photoURL + '">';
+	
 }
 
 
