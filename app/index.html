@@ -14,16 +14,12 @@
 		<link rel="stylesheet" href="/style/css/pure-min.css">
 		<link rel="stylesheet" href="/style/css/grids-responsive-min.css">
 		<link rel="stylesheet" href="/style/css/compiled.css">
-		<script src="https://unpkg.com/vue" defer></script>
-		<script src="https://unpkg.com/vuefire/dist/vuefire.js" defer></script>
 	</head>
 	<body>
 		<div id="app">
 			<div id="top-menu" class="pure-menu pure-menu-horizontal">
 				<a href="#" class="pure-menu-heading pure-menu-link">Fidelizy</a>
-				<span id="user-identity">
-				John Doe
-				</span>
+				<span id="user-identity"><a href="#" id="login-btn" onclick="auth()">Login</a></span>
 			</div>
 			<div id="content">
 				<div class="pure-g">
@@ -97,9 +93,11 @@
 			</div>
 		</div>
 		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+		<script src="https://unpkg.com/vue"></script>
+		<script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
 		<script src="/script/config.js"></script>
 		<script src="/script/auth.js"></script>
 		<script src="/script/database.js"></script>
-		<script src="/script/vue-app.js" defer></script>
+		<script src="/script/vue-app.js"></script>
 	</body>
 </html>

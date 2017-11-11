@@ -1,5 +1,4 @@
 let promosRef = firebase.database().ref('/businesses/holycow/FCs/FC1/promos')
-console.log(123, promosRef.toJSON())
 
 Vue.component("fc-promo", {
 	props: ["name", "points"],

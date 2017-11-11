@@ -7,6 +7,7 @@ function auth() {
 		// The signed-in user info.
 		var user = result.user;
 		// ...
+		onAuthDone(user);
 	}).catch(function(error) {
 		// Handle Errors here.
 		var errorCode = error.code;
@@ -27,3 +28,14 @@ function signOut() {
 		console.error(error);
 	});
 }
+
+function onAuthDone(user) {
+	document.querySelector('#user-identity').innerHTML = 'Hi ' + user.displayName + '! <img class="profile-pic" src="' + user.photoURL + '">';
+}
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user) {
+		onAuthDone(user);
+	}
+});
