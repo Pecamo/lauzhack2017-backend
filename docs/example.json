@@ -5,8 +5,8 @@
                 "name": "Holy cow",
                 "description": "Holy Cow! is a fast casual restaurant concept, focusing on delicious fresh, nutritious burgers served in a quick, friendly environment. Our burgers are made with locally Swiss, fresh quality ingredients and cooked in front of the customers in our open kitchens.",
                 "coordinates": [
-                    { "Rue des Terreaux 10, 1003 Lausanne": [46.522737, 6.628183] },
-                    { "EPFL, 1015 Lausanne": [46.522325, 6.565664] }
+                    { "address": "Rue des Terreaux 10, 1003 Lausanne", "coordinates": [46.522737, 6.628183] },
+                    { "address": "EPFL, 1015 Lausanne", "coordinates": [46.522325, 6.565664] }
                 ],
                 "website": "https://www.holycow.ch/",
                 "logo": "https://www.holycow.ch/wp-content/uploads/2017/06/logo-holy-cow-USE.png"
@@ -16,13 +16,13 @@
                     "name": "FC cow",
                     "description": "A brand new way to have free food & drinks",
                     "articles": [
-                        { "Big Beef": 1 },
-                        { "Big Cheese": 1 },
-                        { "Smoky big cheese and bacon": 1 }
+                        { "key": "Big Beef", "value": 1 },
+                        { "key": "Big Cheese", "value": 1 },
+                        { "key": "Smoky big cheese and bacon", "value": 1 }
                     ],
                     "promos": [
-                        { "1 free drink": 2 },
-                        { "1 free burger": 10 }
+                        { "key": "1 free drink", "value": 2 },
+                        { "key": "1 free burger", "value": 10 }
                     ]
                 }
             }
