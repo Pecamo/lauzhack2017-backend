@@ -88,54 +88,10 @@
 							Cards
 							<span class="fa fa-plus"></span>
 						</h1>
-						<div class="fc-card">
-							<h2>FC cow</h2>
-							<div>
-								<h3>
-									Description
-									<span class="fa fa-pencil"></span>
-								</h3>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-									dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-									ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
-									fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-									mollit anim id est laborum.
-								</p>
-							</div>
-							<div>
-								<h3>Promotions</h3>
-								<ul is="transition-group">
-									<li v-for="promo in promos" class="promo" :key="promo['.key']">
-										<span>{{promo.key}} - {{promo.value}}</span>
-										<button v-on:click="removePromo(promo)">X</button>
-									</li>
-								</ul>
-								<form id="form" v-on:submit.prevent="addPromo">
-									<input type="text" v-model="newPromo.key" placeholder="Key">
-									<input type="text" v-model="newPromo.value" placeholder="Value">
-									<input type="submit" value="Add promo">
-								</form>
-								<div class="promotion pure-g">
-									<strong class="pure-u-1-4">
-									1 free drink
-									</strong>
-									<div class="pure-u-3-4">
-										2 points
-										<span class="fa fa-pencil"></span>
-									</div>
-								</div>
-								<div class="promotion pure-g">
-									<strong class="pure-u-1-4">
-									1 free burger
-									</strong>
-									<div class="pure-u-3-4">
-										10 points
-										<span class="fa fa-pencil"></span>
-									</div>
-								</div>
-							</div>
-						</div>
+						<fc-card
+							description="Lorem ipsum"
+						>
+						</fc-card>
 					</div>
 				</div>
 			</div>
