@@ -37,6 +37,11 @@ function _setupInfoComponents(prefix) {
 				asObject: true
 			}
 		},
+		methods: {
+			curPath: function () {
+				return prefix + "/infos"
+			}
+		},
 		template: `
 		<div class="pure-u-1-2 page-container">
 			<div id="main-title" class="pure-g">
@@ -53,11 +58,13 @@ function _setupInfoComponents(prefix) {
 				</div>
 			</div>
 			<div>
-				<h3>
-					Description
-					<span class="fa fa-pencil"></span>
-				</h3>
-				<p>{{ infos.description }}</p>
+				<h3>Description</h3>
+				<editable-p
+					:text="infos.description"
+					:path="curPath()"
+					identifier="description"
+					placeholder="Description"
+				></editable-p>
 			</div>
 			<div class="pure-g">
 				<strong class="pure-u-1-4">
@@ -65,14 +72,17 @@ function _setupInfoComponents(prefix) {
 					<span class="fa fa-pencil"></span>
 				</strong>
 				<div class="pure-u-3-4">
-					<a :href="infos.website" target="_blank">{{ infos.website }}</a>
+					<editable-a
+						:text="infos.website"
+						:path="curPath()"
+						identifier="website"
+						placeholder="Website"
+					>
+					</editable-a>
 				</div>
 			</div>
 			<div>
-				<h3>
-					Locations
-					<span class="fa fa-pencil"></span>
-				</h3>
+				<h3>Locations</h3>
 				<div class="leaflet-map">
 					<v-locations></v-locations>
 				</div>
@@ -191,14 +201,16 @@ function _setupCardsComponents(prefix) {
 				:text="getTitle()"
 				:path="curPath()"
 				identifier="name"
+				placeholder="Fidelity card name"
 			></editable-h2>
 			<div>
-				<h3>
-					Description
-					<span class="fa fa-pencil"></span>
-				</h3>
-			
-				<p>{{ description }}</p>
+				<h3>Description</h3>
+				<editable-p
+					:text="description"
+					:path="curPath()"
+					identifier="description"
+					placeholder="Description"
+				></editable-p>
 			</div>
 			<fc-entries
 				:fcKey="fcKey"
@@ -288,11 +300,11 @@ function _setupCardsComponents(prefix) {
 function _setupUtils(prefix) {
 	function editableCompBase(tag) {
 		return {
-			props: ["text", "path", "identifier"],
+			props: ["text", "path", "identifier", "placeholder"],
 			data: function () {
 				return {
 					editing: false,
-					value: ""
+					value: this.text
 				}
 			},
 			methods: {
@@ -307,10 +319,10 @@ function _setupUtils(prefix) {
 			template: `
 				<div>
 					<div v-if="editing">
-						<input type="text" v-model="value" placeholder="Business name">
+						<input type="text" v-model="value" :placeholder="placeholder">
 						<span class="pure-button" v-on:click="save">Save</span>
 					</div>
-					<` + tag + ` v-else class="pure-u-1-4" v-on:click="openEdit">
+					<` + tag + ` v-else class="editable" v-on:click="openEdit">
 						{{ text }}
 						<span class="fa fa-pencil"></span>
 					</` + tag + `>
@@ -321,4 +333,6 @@ function _setupUtils(prefix) {
 	Vue.component("editable-h2", editableCompBase("h2"))	
 	Vue.component("editable-h3", editableCompBase("h3"))
 	Vue.component("editable-strong", editableCompBase("strong"))
+	Vue.component("editable-p", editableCompBase("p"))
+	Vue.component("editable-a", editableCompBase("a"))
 }
