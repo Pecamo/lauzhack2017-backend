@@ -46,9 +46,11 @@ function _setupInfoComponents(prefix) {
 				></div>
 				<div v-else id="logo" class="unset pure-u-1-4"></div>
 
-				<h1 id="business-name" class="pure-u-3-4">
-					{{ infos.name }}
-				</h1>
+				<div class="pure-u-3-4">
+					<h1 id="business-name">
+						{{ infos.name }}
+					</h1>
+				</div>
 			</div>
 			<div>
 				<h3>
