@@ -126,7 +126,8 @@ function _setupVue(business) {
 		props: ["fcKey", "name", "description", "articles", "promos"],
 		template:
 		`<div class="fc-card">
-			<h2>{{ fcKey }}</h2>
+			<h2 v-if="name === ''">No name</h2>
+			<h2 v-else>{{ name }}</h2>
 			<div>
 				<h3>
 					Description
@@ -155,8 +156,8 @@ function _setupVue(business) {
 				this.formOpen = true;
 			},
 			addCard: function() {
-				console.log("add-card");
 				this.formOpen = false;
+				fcRef.push(this.newCard);
 			}
 		},
 		firebase: {
@@ -197,7 +198,6 @@ function _setupVue(business) {
 		el: '#app',
 		// initial data
 		data: {},
-		
 		// methods
 		methods: {}
 	})
