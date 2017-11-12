@@ -283,11 +283,11 @@ function _setupCardsComponents(prefix) {
 						</tr>
 					</tbody>
 				</table>
-				<table class="pure-table entry-table">
+				<table class="pure-table form-table">
 					<tr>
 						<form id="form" v-on:submit.prevent="addEntry">
 							<td><input type="text" v-model="newEntry.key" placeholder="Item"></td>
-							<td><input type="text" v-model="newEntry.value" placeholder="Points required"></td>
+							<td><input type="text" v-model="newEntry.value" placeholder="Points"></td>
 							<td><input type="submit" value="+"></td>
 						</form>
 					</tr>
