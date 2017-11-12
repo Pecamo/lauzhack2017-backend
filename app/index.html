@@ -9,6 +9,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="/style/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css">
 		<!-- CSS -->
 		<link rel="stylesheet" href="/style/css/base-min.css">
 		<link rel="stylesheet" href="/style/css/pure-min.css">
@@ -64,6 +65,9 @@
 								Locations
 								<span class="fa fa-pencil"></span>
 							</h3>
+							<div class="leaflet-map">
+								<v-locations></v-locations>
+							</div>
 							<p>
 								TODO
 								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
@@ -87,6 +91,8 @@
 		</div>
 		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 		<script src="https://unpkg.com/vue"></script>
+		<script src="https://unpkg.com/leaflet"></script>
+		<script src="https://unpkg.com/vue2-leaflet"></script>
 		<script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
 		<script src="/script/config.js"></script>
 		<script src="/script/auth.js"></script>

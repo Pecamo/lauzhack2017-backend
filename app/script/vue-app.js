@@ -12,7 +12,32 @@ function _setupVue(business) {
 	const prefix = "/businesses/" + business + "/";
 
 	let promosRef = firebase.database().ref(prefix + "FCs/FC1/promos");
-	let infoRef = firebase.database().ref(prefix + "info");
+	let infosRef = firebase.database().ref(prefix + "infos");
+	let coordinatesRef = firebase.database().ref(prefix + "infos/coordinates");
+
+	Vue.component('v-map', Vue2Leaflet.Map);
+	Vue.component('v-tilelayer', Vue2Leaflet.TileLayer);
+	Vue.component('v-marker', Vue2Leaflet.Marker);
+
+	Vue.component("v-locations", {
+		data: function () {
+			return {
+				zoom: 11,
+				url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+				attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+			}
+		},
+		firebase: {
+			coordinates: coordinatesRef
+		},
+		// FIXME find center to the center of the bounding box
+		template: `
+			<v-map :zoom="zoom" :center="coordinates[0].coordinates">
+			<v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
+			<v-marker v-for="coord in coordinates" :lat-lng="[coord.coordinates[0], coord.coordinates[1]]"></v-marker>
+			</v-map>
+		`
+	})
 
 	Vue.component("fc-promo", {
 		props: ["name", "points"],
