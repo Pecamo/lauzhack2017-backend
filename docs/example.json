@@ -62,6 +62,12 @@
         },
         "EgNIt0Dd2uPwraBYa2SjBWWBqiJ3": {
             "FCs": []
+        },
+        "XHGZy8n7bSPCFOeuPMBVjVGdvlr2": {
+            "FCs": []
+        },
+        "Nzza1c0oishE9IvIueOiEO1iDQ82": {
+            "FCs": []
         }
     },
 
@@ -75,6 +81,14 @@
             "privilege": 1
         },
         "EgNIt0Dd2uPwraBYa2SjBWWBqiJ3": {
+            "business_id": "holycow",
+            "privilege": 0
+        },
+        "XHGZy8n7bSPCFOeuPMBVjVGdvlr2": {
+            "business_id": "holycow",
+            "privilege": 0
+        },
+        "Nzza1c0oishE9IvIueOiEO1iDQ82": {
             "business_id": "holycow",
             "privilege": 0
         }
