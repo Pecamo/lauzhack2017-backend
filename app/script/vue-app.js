@@ -318,10 +318,10 @@ function _setupUtils(prefix) {
 			},
 			template: `
 				<div>
-					<div v-if="editing">
+					<form v-if="editing" class="pure-form" v-on:submit.prevent="save">
 						<input type="text" v-model="value" :placeholder="placeholder">
-						<span class="pure-button" v-on:click="save">Save</span>
-					</div>
+						<button type="submit" class="pure-button">Save</button>
+					</form>
 					<` + tag + ` v-else class="editable" v-on:click="openEdit">
 						{{ text }}
 						<span class="fa fa-pencil"></span>
