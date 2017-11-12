@@ -15,5 +15,5 @@ firebase.database().ref('/users/' + userId).once('value').then(snapshot => {
 function createPromos() {
 	firebase.database().ref('/businesses/holycow/FCs/FC1').once('value').then(snapshot => {
 		console.log(snapshot.toJSON())
-	})	
+	})
 }

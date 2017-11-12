@@ -23,6 +23,7 @@ function auth() {
 function signOut() {
 	firebase.auth().signOut().then(function() {
 		// Sign-out successful.
+		location.reload(); // FIXME Super ugly but anoying to do well
 	}).catch(function(error) {
 		// An error happened.
 		console.error(error);
@@ -31,8 +32,7 @@ function signOut() {
 
 function onAuthDone(user) {
 	setupVue(user.uid);
-	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '!</span> <img class="profile-pic" src="' + user.photoURL + '">';
-	
+	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '!<span class="signout-btn"> <a href="#" onclick="signOut()">Sign out</a></span></span> <img class="profile-pic" src="' + user.photoURL + '">';
 }
 
 

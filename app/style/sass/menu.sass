@@ -1,5 +1,5 @@
 #top-menu
-    background-color: #dedcdc
+    background-color: #95cfff
 
 #user-identity
     float: right
@@ -7,11 +7,20 @@
     height: 34px
     line-height: 34px
 
+    margin-right: 20px
+
     .profile-pic
         padding: 3px 10px
         height: 100%
         border-radius: 50%
+        margin-right: -20px
 
     .username
         display: block
         float: left
+
+        .signout-btn
+            display: none
+
+        &:hover .signout-btn
+            display: inline
