@@ -15,6 +15,8 @@ function _setupVue(business) {
 	_setupInfoComponents(prefix)
 	// right part
 	_setupCardsComponents(prefix)
+	// utils
+	_setupUtils(prefix)
 
 	// create Vue app
 	app = new Vue({
@@ -44,7 +46,9 @@ function _setupInfoComponents(prefix) {
 				></div>
 				<div v-else id="logo" class="unset pure-u-1-4"></div>
 
-				<h1 id="business-name" class="pure-u-3-4">{{ infos.name }}</h1>
+				<h1 id="business-name" class="pure-u-3-4">
+					{{ infos.name }}
+				</h1>
 			</div>
 			<div>
 				<h3>
@@ -171,15 +175,27 @@ function _setupCardsComponents(prefix) {
 
 	Vue.component("fc-card", {
 		props: ["fcKey", "name", "description", "articles", "promos"],
+		methods: {
+			getTitle: function () {
+				return this.name === "" ? "No name" : this.name
+			},
+			curPath: function () {
+				return prefix + 'FCs/' + this.fcKey
+			}
+		},
 		template:
 		`<div class="fc-card">
-			<h2 v-if="name === ''">No name</h2>
-			<h2 v-else>{{ name }}</h2>
+			<editable-h2
+				:text="getTitle()"
+				:path="curPath()"
+				identifier="name"
+			></editable-h2>
 			<div>
 				<h3>
 					Description
 					<span class="fa fa-pencil"></span>
 				</h3>
+			
 				<p>{{ description }}</p>
 			</div>
 			<fc-entries
@@ -239,7 +255,7 @@ function _setupCardsComponents(prefix) {
 					</thead>
 
 					<tbody>
-						<tr v-for="(entry, key) in entries" class="entry" :key="key">				
+						<tr v-for="(entry, key) in entries" class="entry" :key="key">
 							<td>{{entry.key}}</td>
 							<td>{{entry.value}}</td>				
 							<td><button v-on:click="removeEntry(entry.key)">X</button></td>
@@ -257,4 +273,42 @@ function _setupCardsComponents(prefix) {
 		</div>
 		`
 	})
+}
+
+function _setupUtils(prefix) {
+	function editableCompBase(tag) {
+		return {
+			props: ["text", "path", "identifier"],
+			data: function () {
+				return {
+					editing: false,
+					value: ""
+				}
+			},
+			methods: {
+				openEdit: function () {
+					this.editing = true;
+				},
+				save: function () {
+					this.editing = false;
+					firebase.database().ref(this.path).child(this.identifier).set(this.value)
+				}
+			},
+			template: `
+				<div>
+					<div v-if="editing">
+						<input type="text" v-model="value" placeholder="Business name">
+						<span class="pure-button" v-on:click="save">Save</span>
+					</div>
+					<` + tag + ` v-else class="pure-u-1-4" v-on:click="openEdit">
+						{{ text }}
+						<span class="fa fa-pencil"></span>
+					</` + tag + `>
+				</div>
+			`
+		}
+	}
+	Vue.component("editable-h2", editableCompBase("h2"))	
+	Vue.component("editable-h3", editableCompBase("h3"))
+	Vue.component("editable-strong", editableCompBase("strong"))
 }
