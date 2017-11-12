@@ -96,9 +96,16 @@ function _setupMapComponents(prefix) {
 		firebase: {
 			coordinates: coordinatesRef
 		},
+		methods: {
+			getCenter: function () {
+				for (let coord of this.coordinates) {
+					return coord.coordinates
+				}
+			}
+		},
 		// FIXME find center to the center of the bounding box
 		template: `
-			<v-map :zoom="zoom" :center="coordinates[0].coordinates">
+			<v-map :zoom="zoom" :center="getCenter()">
 				<v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
 				<v-marker v-for="coord in coordinates" :lat-lng="[coord.coordinates[0], coord.coordinates[1]]"></v-marker>
 			</v-map>
@@ -235,7 +242,7 @@ function _setupCardsComponents(prefix) {
 						<tr v-for="(entry, key) in entries" class="entry" :key="key">				
 							<td>{{entry.key}}</td>
 							<td>{{entry.value}}</td>				
-							<td><button v-on:click="removeEntry(key)">X</button></td>
+							<td><button v-on:click="removeEntry(entry.key)">X</button></td>
 						</tr>
 					</tbody>
 					<tfoot>
