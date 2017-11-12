@@ -11,7 +11,7 @@ function setupVue(userId) {
 function _setupVue(business) {
 	const prefix = "/businesses/" + business + "/";
 
-	let promosRef = firebase.database().ref(prefix + "FCs/FC1/promos");
+	let fcRef = firebase.database().ref(prefix + "FCs/");
 	let infosRef = firebase.database().ref(prefix + "infos");
 	let coordinatesRef = firebase.database().ref(prefix + "infos/coordinates");
 
@@ -55,6 +55,12 @@ function _setupVue(business) {
 	})
 
 	Vue.component("fc-promos-edit", {
+		props: ["fcKey", "promos"],
+		computed: {
+			promosRef: function () {
+				return firebase.database().ref(prefix + "FCs/" + this.fcKey + "/promos")
+			}
+		},
 		data: () => ({
 			newPromo: {
 				key: '',
@@ -63,18 +69,13 @@ function _setupVue(business) {
 		}),
 		methods: {
 			addPromo: function () {
-				promosRef.push(this.newPromo)
+				this.promosRef.push(this.newPromo)
 				this.newPromo.key = ''
 				this.newPromo.value = ''
 			},
-			removePromo: function (promo) {
-				promosRef.child(promo['.key']).remove()
+			removePromo: function (key) {
+				this.promosRef.child(key).remove()
 			}
-		},
-		// firebase binding
-		// https://github.com/vuejs/vuefire
-		firebase: {
-			promos: promosRef
 		},
 		template: `
 		<div>
@@ -89,10 +90,10 @@ function _setupVue(business) {
 					</thead>
 
 					<tbody>
-						<tr v-for="promo in promos" class="promo" :key="promo['.key']">
+						<tr v-for="(promo, key) in promos" class="promo" :key="key">				
 							<td>{{promo.key}}</td>
-							<td>{{promo.value}}</td>
-							<td><button v-on:click="removePromo(promo)">X</button></td>
+							<td>{{promo.value}}</td>				
+							<td><button v-on:click="removePromo(key)">X</button></td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -109,21 +110,23 @@ function _setupVue(business) {
 	})
 
 	Vue.component("fc-promotions", {
+		props: ["fcKey", "promos"],
 		template: `
 		<div>
 			<h3>Promotions</h3>
-			<fc-promos-edit></fc-promos-edit>
-			<fc-promo name="1 free drink" points="2"></fc-promo>
-			<fc-promo name="1 free burger" points="10"></fc-promo>
+			<div v-for="promo in promos" class="promo" :key="promo['.key']">
+				<fc-promo :name="promo.key" :points="promo.value"></fc-promo>
+			</div>
+			<fc-promos-edit :fcKey="fcKey" :promos="promos"></fc-promos-edit>
 		</div>
 		`
 	})
 
 	Vue.component("fc-card", {
-		props: ["description"],
+		props: ["fcKey", "name", "description", "articles", "promos"],
 		template:
 		`<div class="fc-card">
-			<h2>FC cow</h2>
+			<h2>{{ fcKey }}</h2>
 			<div>
 				<h3>
 					Description
@@ -131,7 +134,7 @@ function _setupVue(business) {
 				</h3>
 				<p>{{ description }}</p>
 			</div>
-			<fc-promotions></fc-promotions>
+			<fc-promotions :fcKey="fcKey" :promos="promos"></fc-promotions>
 		</div>`
 	})
 
@@ -156,21 +159,33 @@ function _setupVue(business) {
 				this.formOpen = false;
 			}
 		},
+		firebase: {
+			fcs: fcRef
+		},
 		template: `
 		<div>
 			<h1 id="card-title">
 				Cards
 			</h1>
-			{{ formOpen }}
-			<button class="pure-button" v-on:click="openForm">Edit <span class="fa fa-plus"></span></button>
+			<div v-for="fc in fcs" class="fc" :key="fc['.key']">
+				<fc-card
+					:fcKey="fc['.key']"
+					:name="fc.name"
+					:description="fc.description"
+					:articles="fc.articles"
+					:promos="fc.promos"
+				></fc-card>
+			</div>
 
-			<fc-card description="Lorem ipsum"></fc-card>
+			<button class="pure-button" v-on:click="openForm">
+				Add a fidelity card
+				<span class="fa fa-plus"></span>
+			</button>
 
 			<form v-if="formOpen" v-on:submit.prevent="addCard">
 				<input type="text" placeHolder="Name">
 				<input type="text" placeHolder="Description">
-				<input type="text" placeHolder="Description">
-				<input type="submit" value="Add card">
+				<input type="submit" value="Add">
 			</form>
 		</div>
 		`
