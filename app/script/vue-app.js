@@ -237,14 +237,21 @@ function _setupCardsComponents(prefix) {
 				this.newEntry.key = ''
 				this.newEntry.value = ''
 			},
-			removeEntry: function (key) {
-				this.entriesRef.child(key).remove()
+			// FIXME remove using the actual ID instead of finding it with the name
+			removeEntry: function (entry) {
+				this.entriesRef.once('value', res => {
+					for (let k in res.val()) {
+						if (res.val()[k].key == entry.key) {
+							this.entriesRef.child(k).remove();
+							break;
+						}
+					}
+				});
 			}
 		},
 		template: `
 		<div>
 			<h3>{{ title }}</h3>
-			<form id="form" v-on:submit.prevent="addEntry">
 				<table class="pure-table entry-table">
 					<thead>
 						<tr>
@@ -255,21 +262,22 @@ function _setupCardsComponents(prefix) {
 					</thead>
 
 					<tbody>
-						<tr v-for="(entry, key) in entries" class="entry" :key="key">
+						<tr v-for="entry in entries" class="entry" :key="entry['.key']">
 							<td>{{entry.key}}</td>
-							<td>{{entry.value}}</td>				
-							<td><button v-on:click="removeEntry(entry.key)">X</button></td>
+							<td>{{entry.value}}</td>
+							<td><button v-on:click="removeEntry(entry)">X</button></td>
 						</tr>
 					</tbody>
-					<tfoot>
-						<tr>
+				</table>
+				<table class="pure-table entry-table">
+					<tr>
+						<form id="form" v-on:submit.prevent="addEntry">
 							<td><input type="text" v-model="newEntry.key" placeholder="Item"></td>
 							<td><input type="text" v-model="newEntry.value" placeholder="Points required"></td>
 							<td><input type="submit" value="+"></td>
-						</tr>
-					</tfoot>
+						</form>
+					</tr>
 				</table>
-			</form>
 		</div>
 		`
 	})
