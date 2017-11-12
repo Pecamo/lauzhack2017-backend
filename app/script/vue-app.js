@@ -9,7 +9,10 @@ function setupVue(userId) {
 }
 
 function _setupVue(business) {
-	let promosRef = firebase.database().ref('/businesses/' + business + '/FCs/FC1/promos')
+	const prefix = "/businesses/" + business + "/";
+
+	let promosRef = firebase.database().ref(prefix + "FCs/FC1/promos");
+	let infoRef = firebase.database().ref(prefix + "info");
 
 	Vue.component("fc-promo", {
 		props: ["name", "points"],
@@ -105,6 +108,47 @@ function _setupVue(business) {
 			</div>
 			<fc-promotions></fc-promotions>
 		</div>`
+	})
+
+	Vue.component("fc-cards", {
+		data: function() {
+			return {
+				formOpen: false,
+				newCard: {
+					name: "",
+					description: "",
+					articles: [],
+					promos: []
+				}
+			}
+		},
+		methods: {
+			openForm: function() {
+				this.formOpen = true;
+			},
+			addCard: function() {
+				console.log("add-card");
+				this.formOpen = false;
+			}
+		},
+		template: `
+		<div>
+			<h1 id="card-title">
+				Cards
+			</h1>
+			{{ formOpen }}
+			<button class="pure-button" v-on:click="openForm">Edit <span class="fa fa-plus"></span></button>
+
+			<fc-card description="Lorem ipsum"></fc-card>
+
+			<form v-if="formOpen" v-on:submit.prevent="addCard">
+				<input type="text" placeHolder="Name">
+				<input type="text" placeHolder="Description">
+				<input type="text" placeHolder="Description">
+				<input type="submit" value="Add card">
+			</form>
+		</div>
+		`
 	})
 
 	// create Vue app
