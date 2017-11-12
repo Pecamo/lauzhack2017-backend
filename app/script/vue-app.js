@@ -50,16 +50,31 @@ function _setupVue(business) {
 		},
 		template: `
 		<div>
-			<ul is="transition-group">
-				<li v-for="promo in promos" class="promo" :key="promo['.key']">
-					<span>{{promo.key}} - {{promo.value}}</span>
-					<button v-on:click="removePromo(promo)">X</button>
-				</li>
-			</ul>
 			<form id="form" v-on:submit.prevent="addPromo">
-				<input type="text" v-model="newPromo.key" placeholder="Key">
-				<input type="text" v-model="newPromo.value" placeholder="Value">
-				<input type="submit" value="Add promo">
+				<table class="pure-table promo-table">
+					<thead>
+						<tr>
+							<th>Offer</th>
+							<th>Points required</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr v-for="promo in promos" class="promo" :key="promo['.key']">
+							<td>{{promo.key}}</td>
+							<td>{{promo.value}}</td>
+							<td><button v-on:click="removePromo(promo)">X</button></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td><input type="text" v-model="newPromo.key" placeholder="Item"></td>
+							<td><input type="text" v-model="newPromo.value" placeholder="Points required"></td>
+							<td><input type="submit" value="+"></td>
+						</tr>
+					</tfoot>
+				</table>
 			</form>
 		</div>
 		`
