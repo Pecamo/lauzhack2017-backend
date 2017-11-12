@@ -40,6 +40,24 @@ function _setupInfoComponents(prefix) {
 		methods: {
 			curPath: function () {
 				return prefix + "/infos"
+			},
+			getUsers: function () {
+				firebase.database().ref("/").once('value')
+				.then(res => {
+					let nbUsers = 0;
+					let users = res.val().users
+					for (let user in users) {
+						for (let key in users[user].FCs) {
+							for (let kk in res.child(prefix).val().FCs) {
+								if (key === kk) {
+									nbUsers++;
+								}
+							}
+						}
+					}
+
+					document.querySelector("#nbUsers").innerHTML = nbUsers;
+				})
 			}
 		},
 		template: `
@@ -80,6 +98,10 @@ function _setupInfoComponents(prefix) {
 					>
 					</editable-a>
 				</div>
+			</div>
+			<div>
+				<h3>Users</h3>
+				<p>You have <span id="nbUsers">{{getUsers()}}</span> users!</p>
 			</div>
 			<div>
 				<h3>Locations</h3>
@@ -189,7 +211,7 @@ function _setupCardsComponents(prefix) {
 		props: ["fcKey", "name", "description", "articles", "promos"],
 		methods: {
 			getTitle: function () {
-				return this.name === "" ? "No name" : this.name
+				return (this.name === "" ? "No name" : this.name)
 			},
 			curPath: function () {
 				return prefix + 'FCs/' + this.fcKey
