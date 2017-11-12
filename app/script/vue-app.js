@@ -54,7 +54,7 @@ function _setupVue(business) {
 		`
 	})
 
-	Vue.component("fc-promos-edit", {
+	Vue.component("fc-promotions", {
 		props: ["fcKey", "promos"],
 		computed: {
 			promosRef: function () {
@@ -79,6 +79,7 @@ function _setupVue(business) {
 		},
 		template: `
 		<div>
+			<h3>Promotions</h3>
 			<form id="form" v-on:submit.prevent="addPromo">
 				<table class="pure-table promo-table">
 					<thead>
@@ -105,19 +106,6 @@ function _setupVue(business) {
 					</tfoot>
 				</table>
 			</form>
-		</div>
-		`
-	})
-
-	Vue.component("fc-promotions", {
-		props: ["fcKey", "promos"],
-		template: `
-		<div>
-			<h3>Promotions</h3>
-			<div v-for="promo in promos" class="promo" :key="promo['.key']">
-				<fc-promo :name="promo.key" :points="promo.value"></fc-promo>
-			</div>
-			<fc-promos-edit :fcKey="fcKey" :promos="promos"></fc-promos-edit>
 		</div>
 		`
 	})
