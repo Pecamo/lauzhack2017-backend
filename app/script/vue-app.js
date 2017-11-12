@@ -10,7 +10,10 @@ function setupVue(userId) {
 
 function _setupVue(business) {
 	const prefix = "/businesses/" + business + "/"
+
+	// left part
 	_setupInfoComponents(prefix)
+	// right part
 	_setupCardsComponents(prefix)
 
 	// create Vue app
@@ -25,7 +28,57 @@ function _setupVue(business) {
 }
 
 function _setupInfoComponents(prefix) {
-	let infosRef = firebase.database().ref(prefix + "infos");
+	Vue.component("business-infos", {
+		firebase: {
+			infos: {
+				source: firebase.database().ref(prefix + "/infos"),
+				asObject: true
+			}
+		},
+		template: `
+		<div class="pure-u-1-2 page-container">
+			<div id="main-title" class="pure-g">
+				<div
+					v-if="infos.logo" id="logo" class="pure-u-1-4"
+					v-bind:style="{ 'backgroundImage': 'url(' + infos.logo + ')' }"
+				></div>
+				<div v-else id="logo" class="unset pure-u-1-4"></div>
+
+				<h1 id="business-name" class="pure-u-3-4">{{ infos.name }}</h1>
+			</div>
+			<div>
+				<h3>
+					Description
+					<span class="fa fa-pencil"></span>
+				</h3>
+				<p>{{ infos.description }}</p>
+			</div>
+			<div class="pure-g">
+				<strong class="pure-u-1-4">
+					Website
+					<span class="fa fa-pencil"></span>
+				</strong>
+				<div class="pure-u-3-4">
+					<a :href="infos.website" target="_blank">{{ infos.website }}</a>
+				</div>
+			</div>
+			<div>
+				<h3>
+					Locations
+					<span class="fa fa-pencil"></span>
+				</h3>
+				<div class="leaflet-map">
+					<v-locations></v-locations>
+				</div>
+			</div>
+		</div>
+		`
+	})
+
+	_setupMapComponents(prefix)
+}
+
+function _setupMapComponents(prefix) {
 	let coordinatesRef = firebase.database().ref(prefix + "infos/coordinates");
 
 	Vue.component('v-map', Vue2Leaflet.Map);
@@ -46,8 +99,8 @@ function _setupInfoComponents(prefix) {
 		// FIXME find center to the center of the bounding box
 		template: `
 			<v-map :zoom="zoom" :center="coordinates[0].coordinates">
-			<v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
-			<v-marker v-for="coord in coordinates" :lat-lng="[coord.coordinates[0], coord.coordinates[1]]"></v-marker>
+				<v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
+				<v-marker v-for="coord in coordinates" :lat-lng="[coord.coordinates[0], coord.coordinates[1]]"></v-marker>
 			</v-map>
 		`
 	})
@@ -81,7 +134,7 @@ function _setupCardsComponents(prefix) {
 			fcs: fcRef
 		},
 		template: `
-		<div>
+		<div class="pure-u-1-2 page-container">
 			<h1 id="card-title">
 				Cards
 			</h1>
