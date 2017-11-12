@@ -32,7 +32,7 @@ function signOut() {
 
 function onAuthDone(user) {
 	setupVue(user.uid);
-	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '!<span class="signout-btn"> <a href="#" onclick="signOut()">Sign out</a></span></span> <img class="profile-pic" src="' + user.photoURL + '">';
+	document.querySelector('#user-identity').innerHTML = '<span class="username">Hi ' + user.displayName + '! <span class="signout-btn"><a href="#" onclick="signOut()">Sign out</a></span></span> <img class="profile-pic" src="' + user.photoURL + '">';
 }
 
 
