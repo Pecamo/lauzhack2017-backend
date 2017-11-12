@@ -9,9 +9,22 @@ function setupVue(userId) {
 }
 
 function _setupVue(business) {
-	const prefix = "/businesses/" + business + "/";
+	const prefix = "/businesses/" + business + "/"
+	_setupInfoComponents(prefix)
+	_setupCardsComponents(prefix)
 
-	let fcRef = firebase.database().ref(prefix + "FCs/");
+	// create Vue app
+	app = new Vue({
+		// element to mount to
+		el: '#app',
+		// initial data
+		data: {},
+		// methods
+		methods: {}
+	})
+}
+
+function _setupInfoComponents(prefix) {
 	let infosRef = firebase.database().ref(prefix + "infos");
 	let coordinatesRef = firebase.database().ref(prefix + "infos/coordinates");
 
@@ -38,94 +51,10 @@ function _setupVue(business) {
 			</v-map>
 		`
 	})
+}
 
-	Vue.component("fc-promo", {
-		props: ["name", "points"],
-		template: `
-		<div class="promotion pure-g">
-			<strong class="pure-u-1-4">
-				{{ name }}
-			</strong>
-			<div class="pure-u-3-4">
-				{{ points }}
-				<span class="fa fa-pencil"></span>
-			</div>
-		</div>
-		`
-	})
-
-	Vue.component("fc-promotions", {
-		props: ["fcKey", "promos"],
-		computed: {
-			promosRef: function () {
-				return firebase.database().ref(prefix + "FCs/" + this.fcKey + "/promos")
-			}
-		},
-		data: () => ({
-			newPromo: {
-				key: '',
-				value: ''
-			}
-		}),
-		methods: {
-			addPromo: function () {
-				this.promosRef.push(this.newPromo)
-				this.newPromo.key = ''
-				this.newPromo.value = ''
-			},
-			removePromo: function (key) {
-				this.promosRef.child(key).remove()
-			}
-		},
-		template: `
-		<div>
-			<h3>Promotions</h3>
-			<form id="form" v-on:submit.prevent="addPromo">
-				<table class="pure-table promo-table">
-					<thead>
-						<tr>
-							<th>Offer</th>
-							<th>Points required</th>
-							<th>Delete</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr v-for="(promo, key) in promos" class="promo" :key="key">				
-							<td>{{promo.key}}</td>
-							<td>{{promo.value}}</td>				
-							<td><button v-on:click="removePromo(key)">X</button></td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td><input type="text" v-model="newPromo.key" placeholder="Item"></td>
-							<td><input type="text" v-model="newPromo.value" placeholder="Points required"></td>
-							<td><input type="submit" value="+"></td>
-						</tr>
-					</tfoot>
-				</table>
-			</form>
-		</div>
-		`
-	})
-
-	Vue.component("fc-card", {
-		props: ["fcKey", "name", "description", "articles", "promos"],
-		template:
-		`<div class="fc-card">
-			<h2 v-if="name === ''">No name</h2>
-			<h2 v-else>{{ name }}</h2>
-			<div>
-				<h3>
-					Description
-					<span class="fa fa-pencil"></span>
-				</h3>
-				<p>{{ description }}</p>
-			</div>
-			<fc-promotions :fcKey="fcKey" :promos="promos"></fc-promotions>
-		</div>`
-	})
+function _setupCardsComponents(prefix) {
+	let fcRef = firebase.database().ref(prefix + "FCs");
 
 	Vue.component("fc-cards", {
 		data: function() {
@@ -180,13 +109,92 @@ function _setupVue(business) {
 		`
 	})
 
-	// create Vue app
-	app = new Vue({
-		// element to mount to
-		el: '#app',
-		// initial data
-		data: {},
-		// methods
-		methods: {}
+	Vue.component("fc-card", {
+		props: ["fcKey", "name", "description", "articles", "promos"],
+		template:
+		`<div class="fc-card">
+			<h2 v-if="name === ''">No name</h2>
+			<h2 v-else>{{ name }}</h2>
+			<div>
+				<h3>
+					Description
+					<span class="fa fa-pencil"></span>
+				</h3>
+				<p>{{ description }}</p>
+			</div>
+			<fc-entries
+				:fcKey="fcKey"
+				:entries="articles"
+				path="/articles"
+				title="Articles"
+				col1Name="Article"
+				col2Name="Points given"
+			>
+			</fc-entries>
+			<fc-entries 
+				:fcKey="fcKey"
+				:entries="promos"
+				path="/promos"
+				title="Promotions"
+				col1Name="Offer"
+				col2Name="Points required"
+			></fc-entries>
+		</div>`
+	})
+
+	Vue.component("fc-entries", {
+		props: ["fcKey", "entries", "path", "title", "col1Name", "col2Name"],
+		computed: {
+			entriesRef: function () {
+				return firebase.database().ref(prefix + "FCs/" + this.fcKey + this.path)
+			}
+		},
+		data: () => ({
+			newEntry: {
+				key: '',
+				value: ''
+			}
+		}),
+		methods: {
+			addEntry: function () {
+				this.entriesRef.push(this.newEntry)
+				this.newEntry.key = ''
+				this.newEntry.value = ''
+			},
+			removeEntry: function (key) {
+				this.entriesRef.child(key).remove()
+			}
+		},
+		template: `
+		<div>
+			<h3>{{ title }}</h3>
+			<form id="form" v-on:submit.prevent="addEntry">
+				<table class="pure-table entry-table">
+					<thead>
+						<tr>
+							<th>{{ col1Name }}</th>
+							<th>{{ col2Name }}</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr v-for="(entry, key) in entries" class="entry" :key="key">				
+							<td>{{entry.key}}</td>
+							<td>{{entry.value}}</td>				
+							<td><button v-on:click="removeEntry(key)">X</button></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td><input type="text" v-model="newEntry.key" placeholder="Item"></td>
+							<td><input type="text" v-model="newEntry.value" placeholder="Points required"></td>
+							<td><input type="submit" value="+"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</form>
+		</div>
+		`
 	})
 }
