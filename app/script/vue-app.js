@@ -184,8 +184,8 @@ function _setupVue(business) {
 			</button>
 
 			<form v-if="formOpen" v-on:submit.prevent="addCard">
-				<input type="text" placeHolder="Name">
-				<input type="text" placeHolder="Description">
+				<input type="text" v-model="newCard.name" placeHolder="Name">
+				<input type="text" v-model="newCard.description" placeHolder="Description">
 				<input type="submit" value="Add">
 			</form>
 		</div>
