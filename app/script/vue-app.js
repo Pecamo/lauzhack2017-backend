@@ -87,7 +87,6 @@ function _setupInfoComponents(prefix) {
 			<div class="pure-g">
 				<strong class="pure-u-1-4">
 					Website
-					<span class="fa fa-pencil"></span>
 				</strong>
 				<div class="pure-u-3-4">
 					<editable-a
